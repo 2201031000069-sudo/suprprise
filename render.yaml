@@ -2,7 +2,7 @@ services:
   - type: web
     name: morning-cards-api
     env: python
-    sourceDir: morning-cards/backend/
+    sourceDir: backend/
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /
