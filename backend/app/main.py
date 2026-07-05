@@ -11,10 +11,13 @@ from app.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    from alembic import command
-    from alembic.config import Config
-    alembic_cfg = Config("alembic.ini")
-    command.upgrade(alembic_cfg, "head")
+    try:
+        from alembic import command
+        from alembic.config import Config
+        alembic_cfg = Config("alembic.ini")
+        command.upgrade(alembic_cfg, "head")
+    except Exception as e:
+        print(f"Migration skipped: {e}")
     yield
 
 
