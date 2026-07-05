@@ -4,12 +4,6 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 import Card from "./Card";
-import { useApi } from "../hooks/useApi";
-
-interface ChocolateData {
-  name: string;
-  compliment: string;
-}
 
 interface Props {
   index: number;
@@ -20,6 +14,9 @@ interface Props {
   onAnimationComplete: () => void;
 }
 
+const name = "TABS Dark Chocolate 🤤";
+const compliment = "Yeh chocolate sirf tumhare liye, agr chocolate ke name se pata na chale toh ak baar search kar lena 🤣";
+
 export default function ChocolateCard({
   index,
   isRevealed,
@@ -28,14 +25,7 @@ export default function ChocolateCard({
   onOpen,
   onAnimationComplete,
 }: Props) {
-  const { data, execute } = useApi<ChocolateData>("/api/v1/chocolate/random");
   const confettiFired = useRef(false);
-
-  useEffect(() => {
-    if (isRevealed && !data) {
-      execute();
-    }
-  }, [isRevealed, data, execute]);
 
   useEffect(() => {
     if (isRevealed && !confettiFired.current) {
@@ -74,26 +64,22 @@ export default function ChocolateCard({
       onOpen={onOpen}
       onAnimationComplete={onAnimationComplete}
     >
-      {data ? (
-        <motion.div
-          className="flex flex-col items-center gap-4 py-4"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.3, type: "spring" }}
+      <motion.div
+        className="flex flex-col items-center gap-4 py-4"
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.3, type: "spring" }}
+      >
+        <motion.span
+          className="text-6xl"
+          animate={{ rotate: [0, -5, 5, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
-          <motion.span
-            className="text-6xl"
-            animate={{ rotate: [0, -5, 5, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            🍫
-          </motion.span>
-          <h4 className="text-xl font-semibold text-pink-200">{data.name}</h4>
-          <p className="text-white/80 text-center italic">{data.compliment}</p>
-        </motion.div>
-      ) : (
-        <div className="py-8 text-center text-white/50">Unwrapping your surprise...</div>
-      )}
+          🍫
+        </motion.span>
+        <h4 className="text-xl font-semibold text-pink-200">{name}</h4>
+        <p className="text-white/80 text-center italic">{compliment}</p>
+      </motion.div>
     </Card>
   );
 }
