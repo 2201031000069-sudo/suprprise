@@ -1,0 +1,13 @@
+node_modules/
+.next/
+venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+*.egg-info/
+dist/
+build/
+public/music/
+*.mp4
+.vercel
